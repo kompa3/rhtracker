@@ -23,8 +23,10 @@ sudo wget -qO /usr/sbin/rabbitmqadmin http://localhost:15672/cli/rabbitmqadmin
 sudo chmod a+x /usr/sbin/rabbitmqadmin
 
 # Create queue for rhtracker
+# Is this necessary? Probably would be created by Logstash rabbitmq input plugin as well?
 rabbitmqadmin declare queue name=rhtracker-data durable=true
 
 # TBD: rabbitmq configuration, custom user & password
 
+# TBD: install .conf files to /etc/logstash/conf.d/ and take them into use immediately
 
