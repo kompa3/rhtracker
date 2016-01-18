@@ -24,7 +24,7 @@ sudo chmod a+x /usr/sbin/rabbitmqadmin
 
 # Create queue for rhtracker
 # Is this necessary? Probably would be created by Logstash rabbitmq input plugin as well?
-rabbitmqadmin declare queue name=rhtracker-data durable=true
+rabbitmqadmin declare queue name=emonth-data durable=true
 
 # TBD: rabbitmq configuration, custom user & password
 
