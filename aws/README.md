@@ -10,10 +10,10 @@ Inline policies attached to roles:
 * aws_iot_log: Allow IoT to log to CloudWatch
 * aws_iot_dynamoDB: Allow IoT rules to write to DynamoDB
 
-## Things and certificates
+## Things
 
 * Rxxx: Raspberry #xxx. The reported shadow data contains current device state (cpu% etc).
-* Rxxx.certificate: Each raspberry device has its own certificate
+** Each raspberry device has its own certificate
 * ETxxx: emonTH #xxx. The shadow contains the latest measurement values.
 
 ## Topics

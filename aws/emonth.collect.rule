@@ -1,0 +1,12 @@
+{
+  "sql": "SELECT * FROM 'emonth-data/Rxxx' WHERE state.reported.node=NN",
+  "description": "Listens to emonth-data/Rxxx topic for node NN and republishes to ETxxx shadow update",
+  "actions": [
+    {
+      "republish": {
+        "roleArn": "arn:aws:iam::609229622683:role/aws_iot_republish",
+        "topic": "$$aws/things/ETxxx/shadow/update"
+      }
+    }
+  ]
+}

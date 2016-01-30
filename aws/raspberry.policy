@@ -16,8 +16,7 @@
         "iot:Publish"
       ],
       "Resource": [
-        "arn:aws:iot:eu-west:609229622683:*/${iot:ClientId}",
-		"$aws/things/${iot:ClientId}/shadow/update"
+        "arn:aws:iot:eu-west:609229622683:*/${iot:ClientId}"
       ]
     }
   ]

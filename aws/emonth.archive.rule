@@ -1,0 +1,16 @@
+{
+  "sql": "SELECT * FROM '$aws/things/ETxxx/shadow/update'",
+  "description": "Listens to emonTH thing shadow updates and writes the log to DynamoDB",
+  "actions": [
+    {
+      "dynamoDB": {
+        "tableName": "emonth-data",
+        "roleArn": "arn:aws:iam::609229622683:role/aws_iot_dynamoDB",
+        "hashKeyField": "serial_number",
+        "hashKeyValue": "ETxxx",
+        "rangeKeyField": "timestamp",
+        "rangeKeyValue": "${state.reported.timestamp}"
+      }
+    }
+  ]
+}
