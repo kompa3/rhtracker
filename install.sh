@@ -21,6 +21,9 @@ sudo apt-get install -y ant
 sudo ant jar
 sudo cp /tmp/jffi/build/jni/libjffi-1.2.so /opt/logstash/vendor/jruby/lib/jni/arm-Linux/
 
+# Allow logstash user to access serial port
+sudo adduser logstash dialout
+
 # Latest RabbitMQ requires Erlang
 # From https://www.erlang-solutions.com/resources/download.html
 echo "deb http://packages.erlang-solutions.com/ubuntu trusty contrib" | sudo tee -a /etc/apt/sources.list
