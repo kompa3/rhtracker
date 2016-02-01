@@ -1,6 +1,15 @@
 #!/bin/bash
 set -ex
 
+echo "Usage: ./install.sh <raspberry-order-number>"
+echo "  eg. ./install.sh 001"
+
+SERIAL_NUMBER="$1"
+if [ -z "$0" ]; then
+  echo "Missing arguments"
+  exit 1
+fi
+
 # Check that ttyAMA0 is not used for console
 if grep -Fxq "ttyAMA0" /boot/cmdline.txt; then
   echo "ERROR: ttyAMA0 (serial port) is configured as the console in /boot/cmdline.txt"
@@ -52,3 +61,22 @@ sudo /opt/logstash/bin/plugin install logstash-output-mqtt
 # Install .conf files to /etc/logstash/conf.d/ and take them into use immediately
 sudo cp *.conf /etc/logstash/conf.d/
 sudo service logstash restart
+
+# Remote access
+sudo apt-get install -y autossh
+sudo adduser --system autossh
+sudo cp autossh.service /etc/systemd/system/
+# Use port 9001 for R001, 9002 for R002 etc.
+sudo sed -i "s/9001/9$SERIAL_NUMBER/g" /etc/systemd/service/autossh.service
+sudo systemctl daemon-reload
+sudo systemctl start autossh.service
+sudo systemctl enable autossh.service
+sudo -u autossh ssh-keygen -N '' -f /home/autossh/.ssh/id_rsa
+echo "On the remote access server, nano /etc/passwd and change raspberry user shell temporarily to /bin/bash"
+echo "Also, set PasswordAuthentication to yes in /etc/ssh/sshd_config; then sudo service ssh restart"
+echo "Then, set a temporary password with sudo passwd raspberry"
+read -p "Press [Enter] when ready"
+sudo -u autossh ssh-copy-id raspberry@52.18.36.77
+echo "Now change to login back to /usr/sbin/nologin and PasswordAuthentication to no in /etc/ssh/sshd_config"
+echo "Then, sudo service ssh restart"
+read -p "Press [Enter] when ready"
