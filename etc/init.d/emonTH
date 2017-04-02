@@ -1,0 +1,63 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          emonTH
+# Required-Start:    $all
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: RFM69pi listening to emonTH metrics
+### END INIT INFO
+
+PID_FILE="/var/run/emonTH.pid"
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+do_start() {
+    stty -F /dev/ttyAMA0 -raw -echo -echoe -echok 38400
+#    touch /var/log/emonTH
+#    chmod a+r /var/log/emonTH
+#    cat /dev/ttyAMA0 > /var/emonTH &
+
+    # Remove newlines from the line and push it to redis message queue
+    cat /dev/ttyAMA0 | while read -r line; do [[ -n "${line//['\n''\r']}" ]] && echo "LPUSH emonTH \"${line//['\n\r']}\"" | redis-cli ; done &
+
+    echo $! > "$PID_FILE"
+    sleep 5
+    echo "v" > /dev/ttyAMA0
+    sleep 5
+    echo "15i" > /dev/ttyAMA0
+    sleep 5
+    echo "v" > /dev/ttyAMA0
+}
+
+case "$1" in
+    start)
+	do_start
+        ;;
+    restart|reload|force-reload)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+    status)
+        if [ -f "$PID_FILE" ] && ps $(cat "$PID_FILE") > /dev/null 2>&1; then
+            echo "Running"
+            echo 0
+        else
+            echo "Stopped"
+            exit 1
+        fi
+        ;;
+    stop)
+        # No-op
+        echo "Killing $PID_FILE"
+        kill $(cat "$PID_FILE")
+        exit $?
+        ;;
+    *)
+        echo "Usage: $0 start|stop" >&2
+        exit 3
+        ;;
+esac
