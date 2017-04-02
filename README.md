@@ -1,8 +1,8 @@
 # zabbix-emonth
 
 These scripts enable reading of [emonTH 433MHz - Temperature & Humidity nodes](http://shop.openenergymonitor.com/emonth-433mhz-temperature-humidity-node/) 
-sensor values to Zabbix from Raspberry having
-[RFM69Pi 433Mhz Raspberry Pi Base Station Receiver Board](http://shop.openenergymonitor.com/rfm69pi-433mhz-raspberry-pi-base-station-receiver-board/).
+sensor values from Raspberry having
+[RFM69Pi 433Mhz Raspberry Pi Base Station Receiver Board](http://shop.openenergymonitor.com/rfm69pi-433mhz-raspberry-pi-base-station-receiver-board/) to [Zabbix](www.zabbix.com).
 
 The scripts have been tested with Raspbian Jessie and Raspberry Pi 2
 
@@ -24,7 +24,7 @@ After installation, reboot zabbix-agent so that it notices the new user paramete
 
 ## Zabbix Server configuration
 
-The easiest way to get started is to import [EmonTH_measurement.xml](EmonTH_measurement.xml) to Zabbix Server.
+The easiest way to get started is to import [emonth_measurement.xml](emonth_measurement.xml) to Zabbix Server.
 
 Each discovered node has the following items:
 
@@ -34,3 +34,6 @@ Each discovered node has the following items:
 * internal_temperature (in Celsius)
 * rssi (received signal strength indication, as defined by IEEE 802.11)
 
+## Screenshots
+
+![Zabbix items](https://github.com/kompa3/zabbix-emonth/blob/master/zabbix_items.JPG)
