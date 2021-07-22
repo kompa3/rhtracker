@@ -6,6 +6,13 @@ sensor values from Raspberry having
 
 The scripts have been tested with Raspbian Jessie and Raspberry Pi 2
 
+## Raspbian Setup
+
+### Preparation of SD card
+
+- Follow Raspbian Headless setup instructions, including https://www.raspberrypi.org/documentation/remote-access/ssh/README.md to enable ssh access
+- Edit `cmdline.txt` and remove `console=serial0,115200` so that Raspberry won't try to read serial port as console input
+
 ## Install
 
 Prerequisites:
